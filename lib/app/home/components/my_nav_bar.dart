@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:med_express/app/home/models/destinations.dart';
 
 class MyNavBar extends StatelessWidget {

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:med_express/app/app.dart';
 import 'package:med_express/app/enter/pages/login_page.dart';
 import 'package:med_express/app/enter/pages/sign_up_page.dart';

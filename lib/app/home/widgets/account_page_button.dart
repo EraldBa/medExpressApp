@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:med_express/mixins/adaptive_mixin.dart';
 
 class AccountPageButton extends StatelessWidget with AdaptiveScreenMixin {

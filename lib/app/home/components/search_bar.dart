@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:med_express/app/home/widgets/loading_screen.dart';
 import 'package:med_express/app/results/pages/result_page.dart';
 import 'package:med_express/services/search_service.dart';

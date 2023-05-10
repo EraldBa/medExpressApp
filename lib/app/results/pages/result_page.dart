@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:med_express/app/results/components/interactive_card.dart';
 import 'package:med_express/app/results/components/wiki_results.dart';
 import 'package:med_express/app/results/models/search_result.dart';

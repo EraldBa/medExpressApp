@@ -1,10 +1,8 @@
 import 'dart:math';
 
-import 'package:flutter/material.dart';
-
 import 'package:confetti/confetti.dart';
+import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-
 import 'package:med_express/app/app.dart';
 import 'package:med_express/app/home/pages/home_page.dart';
 import 'package:med_express/services/user.dart';

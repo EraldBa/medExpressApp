@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 import 'package:lottie/lottie.dart';
-
 import 'package:med_express/app/app.dart';
 import 'package:med_express/app/home/components/search_bar.dart';
 import 'package:med_express/appearance/themes.dart';

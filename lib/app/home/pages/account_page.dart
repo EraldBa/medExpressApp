@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:med_express/app/home/widgets/account_page_button.dart';
 import 'package:med_express/app/home/widgets/account_page_field.dart';
 import 'package:med_express/mixins/adaptive_mixin.dart';

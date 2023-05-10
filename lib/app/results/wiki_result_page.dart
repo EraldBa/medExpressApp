@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:med_express/app/results/components/text_bubble.dart';
 import 'package:med_express/app/results/models/wiki_data.dart';
 

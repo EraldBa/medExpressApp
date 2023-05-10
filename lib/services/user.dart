@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'package:pocketbase/pocketbase.dart';
-
 import 'package:med_express/app/app.dart';
 import 'package:med_express/app/enter/pages/enter_page.dart';
+import 'package:pocketbase/pocketbase.dart';
 
 // All methods in User except getters and logOut can throw exceptions
 class User {

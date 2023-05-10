@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-
 import 'package:med_express/app/app.dart';
 import 'package:med_express/services/user.dart';
 

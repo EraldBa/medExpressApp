@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'package:med_express/extensions/string_extension.dart';
 import 'package:med_express/app/results/models/pubmed_data.dart';
 import 'package:med_express/app/results/pages/pubmed_page.dart';
+import 'package:med_express/extensions/string_extension.dart';
 
 class PubMedResultsPage extends StatefulWidget {
   final List<PubMedData> data;

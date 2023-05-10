@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-
-import 'package:med_express/extensions/string_extension.dart';
-import 'package:med_express/mixins/adaptive_mixin.dart';
 import 'package:med_express/app/results/components/text_bubble.dart';
 import 'package:med_express/app/results/models/pubmed_data.dart';
+import 'package:med_express/extensions/string_extension.dart';
+import 'package:med_express/mixins/adaptive_mixin.dart';
 
 class PubMedPage extends StatelessWidget with AdaptiveScreenMixin {
   final PubMedData data;
