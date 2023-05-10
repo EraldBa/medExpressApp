@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:med_express/mixins/adaptive_mixin.dart';
-import 'package:med_express/main.dart';
+import 'package:med_express/app/app.dart';
 import 'package:med_express/app/enter/pages/login_page.dart';
 import 'package:med_express/app/enter/pages/sign_up_page.dart';
+import 'package:med_express/mixins/adaptive_mixin.dart';
 
 class EnterPage extends StatefulWidget {
   const EnterPage({super.key});
@@ -37,7 +37,7 @@ class _EnterPageState extends State<EnterPage> with AdaptiveScreenMixin {
         appBar: AppBar(
           centerTitle: true,
           title: const Text(
-            appName,
+            App.name,
             textAlign: TextAlign.center,
           ),
           bottom: TabBar(

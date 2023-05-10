@@ -1,10 +1,11 @@
 import 'dart:math';
 
-import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+
+import 'package:confetti/confetti.dart';
 import 'package:lottie/lottie.dart';
 
-import 'package:med_express/main.dart';
+import 'package:med_express/app/app.dart';
 import 'package:med_express/app/home/pages/home_page.dart';
 import 'package:med_express/services/user.dart';
 
@@ -56,7 +57,7 @@ class _WelcomePageState extends State<WelcomePage> {
                     ),
                     padding: const EdgeInsets.all(30.0),
                     child: Text(
-                      '✨Hello ${User.current.username}✨\n🥳🥳Welcome to $appName!🥳🥳',
+                      '✨Hello ${User.current.username}✨\n🥳🥳Welcome to ${App.name}!🥳🥳',
                       textAlign: TextAlign.center,
                       style: const TextStyle(fontSize: 25.0),
                     ),

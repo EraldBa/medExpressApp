@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:med_express/mixins/adaptive_mixin.dart';
-import 'package:med_express/app/home/pages/account_page.dart';
 import 'package:med_express/app/home/components/my_nav_bar.dart';
 import 'package:med_express/app/home/components/my_nav_drawer.dart';
 import 'package:med_express/app/home/components/search_bar.dart';
 import 'package:med_express/app/home/models/destinations.dart';
+import 'package:med_express/app/home/pages/account_page.dart';
 import 'package:med_express/app/home/pages/search_page.dart';
 import 'package:med_express/app/home/pages/settings_page.dart';
+import 'package:med_express/mixins/adaptive_mixin.dart';
 import 'package:med_express/services/user.dart';
 
 class UserPage extends StatefulWidget {

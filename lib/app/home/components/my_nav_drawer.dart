@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:med_express/main.dart';
+import 'package:med_express/app/app.dart';
 import 'package:med_express/app/home/models/destinations.dart';
 import 'package:med_express/services/user.dart';
 
@@ -51,7 +51,7 @@ class MyNavDrawer extends StatelessWidget {
         ),
         _heightBox,
         const Text(
-          '$appName Pages',
+          '${App.name} Pages',
           textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.blue,

@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 import 'package:lottie/lottie.dart';
 
-import 'package:med_express/appearance/themes.dart';
-import 'package:med_express/main.dart';
-import 'package:med_express/mixins/adaptive_mixin.dart';
+import 'package:med_express/app/app.dart';
 import 'package:med_express/app/home/components/search_bar.dart';
+import 'package:med_express/appearance/themes.dart';
+import 'package:med_express/mixins/adaptive_mixin.dart';
 
 class SearchPage extends StatelessWidget with AdaptiveScreenMixin {
   const SearchPage({super.key});
@@ -40,7 +40,7 @@ class SearchPage extends StatelessWidget with AdaptiveScreenMixin {
           ),
           const SizedBox(height: 50.0),
           const Text(
-            appName,
+            App.name,
             style: TextStyle(
               color: Colors.blueAccent,
               fontSize: 50.0,

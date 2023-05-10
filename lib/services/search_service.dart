@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import 'package:med_express/main.dart';
+import 'package:med_express/app/app.dart';
 import 'package:med_express/services/user.dart';
 
 enum SearchErrors { connectionError }
@@ -11,7 +11,7 @@ abstract class SearchService {
   static const Map<String, String> _jsonHeaders = {
     'Content-Type': 'application/json'
   };
-  static const String _brokerURL = '$serverIP:8080/handle';
+  static const String _brokerURL = '${App.serverIP}:8080/handle';
 
   static Future<Map<String, dynamic>> requestSearch(String search) async {
     late final http.StreamedResponse response;

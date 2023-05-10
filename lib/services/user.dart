@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:pocketbase/pocketbase.dart';
 
-import 'package:med_express/main.dart';
+import 'package:med_express/app/app.dart';
 import 'package:med_express/app/enter/pages/enter_page.dart';
 
 // All methods in User except getters and logOut can throw exceptions
 class User {
   static final User _user = User._internal();
-  final PocketBase _pb = PocketBase('$serverIP:8090');
+  final PocketBase _pb = PocketBase('${App.serverIP}:8090');
   List<String> _sitePreferences = [];
   List<String> _searchHistory = [];
   String _id = '';
