@@ -1,3 +1,4 @@
+import 'package:med_express/app/results/models/nhs_data.dart';
 import 'package:med_express/app/results/models/pubmed_data.dart';
 import 'package:med_express/app/results/models/wiki_data.dart';
 
@@ -7,6 +8,7 @@ class SearchResults {
   late String _message;
   WikiData? _wikiData;
   List<PubMedData>? _pubmedData;
+  List<NhsData>? _nhsData;
   Map<String, dynamic>? _scholarData;
 
   bool get error => _error;
@@ -46,6 +48,9 @@ class SearchResults {
           break;
         case 'pubmed':
           _pubmedData ??= udata.map((e) => PubMedData.fromJSON(e)).toList();
+          break;
+        case 'nhs':
+          _nhsData ??= udata.map((e) => NhsData.fromJSON(e)).toList();
           break;
       }
     }
