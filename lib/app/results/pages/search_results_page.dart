@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:med_express/app/results/models/pubmed_data.dart';
-import 'package:med_express/app/results/pages/pubmed_page.dart';
+import 'package:med_express/app/results/models/search_data_interface.dart';
+import 'package:med_express/app/results/pages/data_page.dart';
 import 'package:med_express/extensions/string_extension.dart';
 
-class PubMedResultsPage extends StatefulWidget {
-  final List<PubMedData> data;
+class SearchResultsPage extends StatefulWidget {
+  final List<SearchDataInterface> data;
   final String image;
 
-  const PubMedResultsPage({super.key, required this.data, required this.image});
+  const SearchResultsPage({
+    super.key,
+    required this.data,
+    required this.image,
+  });
 
   static MaterialPageRoute customRouter(
     BuildContext context, {
-    required List<PubMedData> data,
+    required List<SearchDataInterface> data,
     required String image,
   }) {
     return MaterialPageRoute(
-      builder: (context) => PubMedResultsPage(
+      builder: (context) => SearchResultsPage(
         data: data,
         image: image,
       ),
@@ -23,10 +27,10 @@ class PubMedResultsPage extends StatefulWidget {
   }
 
   @override
-  State<PubMedResultsPage> createState() => _PubMedResultsPageState();
+  State<SearchResultsPage> createState() => _SearchResultsPageState();
 }
 
-class _PubMedResultsPageState extends State<PubMedResultsPage> {
+class _SearchResultsPageState extends State<SearchResultsPage> {
   late final List<bool> _isOpen = List.filled(widget.data.length, false);
 
   @override
@@ -63,7 +67,7 @@ class _PubMedResultsPageState extends State<PubMedResultsPage> {
                             context,
                             MaterialPageRoute(
                               builder: (context) {
-                                return PubMedPage(data: e);
+                                return DataPage(data: e);
                               },
                             ),
                           );

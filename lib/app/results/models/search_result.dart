@@ -1,5 +1,6 @@
 import 'package:med_express/app/results/models/nhs_data.dart';
 import 'package:med_express/app/results/models/pubmed_data.dart';
+import 'package:med_express/app/results/models/search_data_interface.dart';
 import 'package:med_express/app/results/models/wiki_data.dart';
 
 class SearchResults {
@@ -59,4 +60,17 @@ class SearchResults {
       : _keyword = keyword,
         _error = true,
         _message = 'data sent from server improperly formated';
+
+  Map<String, List<SearchDataInterface>> get dataForCards {
+    final data = <String, List<SearchDataInterface>>{};
+
+    if (pubmedData != null) {
+      data.addAll({'pubmed': pubmedData!});
+    }
+    if (nhsData != null) {
+      data.addAll({'nhs': nhsData!});
+    }
+
+    return data;
+  }
 }

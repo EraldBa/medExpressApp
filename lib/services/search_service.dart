@@ -38,6 +38,7 @@ abstract class SearchService {
     }
 
     final stringData = await response.stream.bytesToString();
+    
     return jsonDecode(stringData);
   }
 }

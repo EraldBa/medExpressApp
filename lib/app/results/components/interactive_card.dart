@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:med_express/app/results/models/search_result.dart';
-import 'package:med_express/app/results/pages/nhs_results_page.dart';
-import 'package:med_express/app/results/pages/pubmed_results_page.dart';
+import 'package:med_express/app/results/pages/search_results_page.dart';
 import 'package:med_express/mixins/adaptive_mixin.dart';
 
 class InteractiveCard extends StatelessWidget with AdaptiveScreenMixin {
@@ -20,41 +19,34 @@ class InteractiveCard extends StatelessWidget with AdaptiveScreenMixin {
     BuildContext context,
     SearchResults results,
   ) {
-    const pubmedImage = 'assets/images/doctor.png';
-    const nhsImage = 'assets/images/drugstore.png';
-
-    final cards = <InteractiveCard>[
-      if (results.pubmedData != null)
-        InteractiveCard(
-          title: 'PubMed',
-          onTap: () {
-            Navigator.push(
-              context,
-              PubMedResultsPage.customRouter(
-                context,
-                data: results.pubmedData!,
-                image: pubmedImage,
-              ),
-            );
-          },
-          image: pubmedImage,
-        ),
-      if (results.nhsData != null)
-        InteractiveCard(
-          title: 'NHS',
-          onTap: () {
-            Navigator.push(
-              context,
-              NhsResultPage.customRouter(
-                context,
-                data: results.nhsData!,
-                image: nhsImage,
-              ),
-            );
-          },
-          image: nhsImage,
-        )
+    const randomImages = [
+      'assets/images/doctor.png',
+      'assets/images/drugstore.png'
     ];
+
+    final cards = <InteractiveCard>[];
+
+    int i = 0;
+
+    results.dataForCards.forEach((title, data) {
+      final image = randomImages[i++];
+      cards.add(
+        InteractiveCard(
+          title: title.toUpperCase(),
+          onTap: () {
+            Navigator.push(
+              context,
+              SearchResultsPage.customRouter(
+                context,
+                data: data,
+                image: image,
+              ),
+            );
+          },
+          image: image,
+        ),
+      );
+    });
 
     return cards;
   }

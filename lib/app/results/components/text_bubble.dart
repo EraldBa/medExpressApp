@@ -13,7 +13,7 @@ class TextBubble extends StatelessWidget {
     this.onTap,
   });
 
-  TextBubble.fromList(
+  TextBubble.fromListOfStrings(
     List<String> t, {
     super.key,
     this.onTap,
@@ -39,7 +39,7 @@ class TextBubble extends StatelessWidget {
             TextSpan(
               children: [
                 TextSpan(
-                  text: '$title\n',
+                  text: '${title.toUpperCase()}\n',
                   style: const TextStyle(
                     fontSize: 17.0,
                     fontWeight: FontWeight.bold,
