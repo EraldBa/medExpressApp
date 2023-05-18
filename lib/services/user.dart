@@ -3,7 +3,6 @@ import 'package:med_express/app/app.dart';
 import 'package:med_express/app/enter/pages/enter_page.dart';
 import 'package:pocketbase/pocketbase.dart';
 
-// All methods in User except getters and logOut can throw exceptions
 class User {
   static final User _user = User._internal();
   final PocketBase _pb = PocketBase('${App.serverIP}:8090');
@@ -37,14 +36,13 @@ class User {
         List<String>.from(info['search_history']['keywords']);
   }
 
-  void _clearData() {
+  void _clearUserData() {
     _id = _username = _email = '';
     _sitePreferences.clear();
     _searchHistory.clear();
   }
 
   /// logIn logs in the user and potentially returns an error as bool
-  /// throws [Exception]
   static Future<bool> logIn({
     required String username,
     required String password,
@@ -71,6 +69,7 @@ class User {
       'sites': [
         'wiki',
         'pubmed',
+        'nhs',
       ]
     };
 
@@ -145,7 +144,7 @@ class User {
 
   void logOut(BuildContext context) {
     _pb.authStore.clear();
-    _clearData();
+    _clearUserData();
     Navigator.popAndPushNamed(context, EnterPage.route);
   }
 

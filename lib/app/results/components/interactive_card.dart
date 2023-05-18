@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:med_express/app/results/models/search_result.dart';
+import 'package:med_express/app/results/pages/nhs_results_page.dart';
+import 'package:med_express/app/results/pages/pubmed_results_page.dart';
 import 'package:med_express/mixins/adaptive_mixin.dart';
 
 class InteractiveCard extends StatelessWidget with AdaptiveScreenMixin {
@@ -12,6 +15,49 @@ class InteractiveCard extends StatelessWidget with AdaptiveScreenMixin {
     required this.onTap,
     required this.image,
   });
+
+  static List<InteractiveCard> listFromSearchResults(
+    BuildContext context,
+    SearchResults results,
+  ) {
+    const pubmedImage = 'assets/images/doctor.png';
+    const nhsImage = 'assets/images/drugstore.png';
+
+    final cards = <InteractiveCard>[
+      if (results.pubmedData != null)
+        InteractiveCard(
+          title: 'PubMed',
+          onTap: () {
+            Navigator.push(
+              context,
+              PubMedResultsPage.customRouter(
+                context,
+                data: results.pubmedData!,
+                image: pubmedImage,
+              ),
+            );
+          },
+          image: pubmedImage,
+        ),
+      if (results.nhsData != null)
+        InteractiveCard(
+          title: 'NHS',
+          onTap: () {
+            Navigator.push(
+              context,
+              NhsResultPage.customRouter(
+                context,
+                data: results.nhsData!,
+                image: nhsImage,
+              ),
+            );
+          },
+          image: nhsImage,
+        )
+    ];
+
+    return cards;
+  }
 
   @override
   Widget build(BuildContext context) {

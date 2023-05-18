@@ -4,19 +4,18 @@ import 'package:med_express/app/results/models/wiki_data.dart';
 
 class SearchResults {
   final String _keyword;
-  late bool _error;
-  late String _message;
+  final bool _error;
+  final String _message;
   WikiData? _wikiData;
   List<PubMedData>? _pubmedData;
   List<NhsData>? _nhsData;
-  Map<String, dynamic>? _scholarData;
 
   bool get error => _error;
   String get keyword => _keyword;
   String get message => _message;
   WikiData? get wikiData => _wikiData;
   List<PubMedData>? get pubmedData => _pubmedData;
-  Map<String, dynamic>? get scholarData => _scholarData;
+  List<NhsData>? get nhsData => _nhsData;
 
   factory SearchResults.fromJSON({
     required String keyword,
@@ -60,15 +59,4 @@ class SearchResults {
       : _keyword = keyword,
         _error = true,
         _message = 'data sent from server improperly formated';
-
-  List<dynamic>? get getAllData {
-    if (_pubmedData == null && _scholarData == null) {
-      return null;
-    }
-
-    return [
-      if (_pubmedData != null) _pubmedData,
-      if (_scholarData != null) _scholarData,
-    ];
-  }
 }

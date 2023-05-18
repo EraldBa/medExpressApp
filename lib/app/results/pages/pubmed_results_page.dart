@@ -10,7 +10,10 @@ class PubMedResultsPage extends StatefulWidget {
   const PubMedResultsPage({super.key, required this.data, required this.image});
 
   static MaterialPageRoute customRouter(
-      BuildContext context, List<PubMedData> data, String image) {
+    BuildContext context, {
+    required List<PubMedData> data,
+    required String image,
+  }) {
     return MaterialPageRoute(
       builder: (context) => PubMedResultsPage(
         data: data,
@@ -44,7 +47,6 @@ class _PubMedResultsPageState extends State<PubMedResultsPage> {
             ExpansionPanelList(
               animationDuration: const Duration(milliseconds: 300),
               elevation: 8.0,
-              dividerColor: Colors.purple[800],
               expandedHeaderPadding: const EdgeInsets.all(15.0),
               children: widget.data.map((e) {
                 return ExpansionPanel(
