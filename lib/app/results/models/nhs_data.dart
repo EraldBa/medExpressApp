@@ -1,19 +1,16 @@
-import 'package:med_express/app/results/models/search_data_interface.dart';
+import 'package:med_express/app/results/models/search_data.dart';
 
-class NhsData implements SearchDataInterface {
-  final String _title, _text;
-  final String? _summary;
+class NhsData extends SearchData {
+  final String _text;
   Map<String, Object>? _mapCache;
 
   NhsData.fromJSON(Map<String, dynamic> data)
-      : _title = data['title'].toString(),
-        _text = data['text'].toString(),
-        _summary = data['summary']?.toString();
-
-  @override
-  String get title => _title;
-  @override
-  String get summary => _summary ?? 'No data available';
+      : _text = data['text'].toString(),
+        super(
+          title: data['title'].toString(),
+          summary: data['summary']?.toString(),
+          keywords: List<String>.from(data['keywords'] ?? []),
+        );
 
   String get text => _text;
 
@@ -23,6 +20,7 @@ class NhsData implements SearchDataInterface {
       'title': title,
       'summary': summary,
       'text': text,
+      'keywords': keywords
     };
 
     return _mapCache!;

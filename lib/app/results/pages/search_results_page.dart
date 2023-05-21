@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:med_express/app/results/models/search_data_interface.dart';
+import 'package:med_express/app/results/models/search_data.dart';
 import 'package:med_express/app/results/pages/data_page.dart';
 import 'package:med_express/extensions/string_extension.dart';
 
 class SearchResultsPage extends StatefulWidget {
-  final List<SearchDataInterface> data;
+  final List<SearchData> data;
   final String image;
 
   const SearchResultsPage({
@@ -15,7 +15,7 @@ class SearchResultsPage extends StatefulWidget {
 
   static MaterialPageRoute customRouter(
     BuildContext context, {
-    required List<SearchDataInterface> data,
+    required List<SearchData> data,
     required String image,
   }) {
     return MaterialPageRoute(
@@ -39,7 +39,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('PubMed'),
+        title: const Text('Search results'),
       ),
       body: SingleChildScrollView(
         child: Column(

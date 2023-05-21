@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:med_express/app/results/components/text_bubble.dart';
-import 'package:med_express/app/results/models/search_data_interface.dart';
+import 'package:med_express/app/results/models/search_data.dart';
 import 'package:med_express/extensions/string_extension.dart';
 import 'package:med_express/mixins/adaptive_mixin.dart';
 
@@ -18,7 +18,7 @@ class DataPage extends StatelessWidget with AdaptiveScreenMixin {
 
   static const String _paragraphTerminator = '|';
 
-  final SearchDataInterface data;
+  final SearchData data;
 
   const DataPage({super.key, required this.data});
 
