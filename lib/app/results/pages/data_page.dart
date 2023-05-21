@@ -16,6 +16,8 @@ class DataPage extends StatelessWidget with AdaptiveScreenMixin {
     Colors.deepPurple
   ];
 
+  static const String _paragraphTerminator = '|';
+
   final SearchDataInterface data;
 
   const DataPage({super.key, required this.data});
@@ -27,19 +29,30 @@ class DataPage extends StatelessWidget with AdaptiveScreenMixin {
     int i = 0;
     data.toMap.forEach((name, value) {
       final color = _randomColors[i++];
+
+      late final Widget textBubble;
+
       if (value is List<String>) {
-        columnBody.add(TextBubble.fromListOfStrings(
+        textBubble = TextBubble.fromListOfStrings(
           value,
           title: name,
           color: color,
-        ));
+        );
       } else if (value is String) {
-        columnBody.add(TextBubble(
-          value.formatWith('\n', step: isSmallScreen(context) ? 50 : 70),
+        value = value
+            .formatWith('\n', step: isSmallScreen(context) ? 50 : 80)
+            .replaceAll(_paragraphTerminator, '\n\n');
+
+        textBubble = TextBubble(
+          value,
           title: name,
           color: color,
-        ));
+        );
+      } else {
+        return;
       }
+
+      columnBody.add(textBubble);
     });
 
     return Scaffold(

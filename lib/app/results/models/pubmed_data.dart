@@ -2,15 +2,15 @@ import 'package:med_express/app/results/models/search_data_interface.dart';
 
 class PubMedData implements SearchDataInterface {
   static const String _nodata = 'No data available';
-  final String _pmid, _pmcid, _title;
-  final String? _link, _summary, _abstract, _keywords;
+  final String _pmid, _title;
+  final String? _pmcid, _link, _summary, _abstract, _keywords;
   final List<String> _authors;
   Map<String, Object>? _mapCache;
 
   PubMedData.fromJSON(Map<String, dynamic> data)
       : _pmid = data['pmid'].toString(),
-        _pmcid = data['pmcid'].toString(),
         _title = data['title'].toString(),
+        _pmcid = data['pmcid']?.toString(),
         _link = data['link']?.toString(),
         _summary = data['summary']?.toString(),
         _abstract = data['abstract']?.toString(),
@@ -23,7 +23,7 @@ class PubMedData implements SearchDataInterface {
   String get summary => _summary ?? _nodata;
 
   String get pmid => _pmid;
-  String get pmcid => _pmcid;
+  String get pmcid => _pmcid ?? '';
   String get link => _link ?? _nodata;
   String get abstract => _abstract ?? _nodata;
   String get keywords => _keywords ?? _nodata;
