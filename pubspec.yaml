@@ -74,6 +74,7 @@ flutter:
     - assets/lottie/search-doctor.json
     - assets/lottie/medical-frontliners.json
     - assets/lottie/question-mark.json
+    - assets/lottie/binary-scan.json
 
 
 

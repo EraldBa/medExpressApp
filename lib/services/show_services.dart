@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:med_express/appearance/const_colors.dart' as const_colors;
+import 'package:med_express/services/search_service.dart';
 import 'package:med_express/widgets/my_alert_dialog.dart';
 
 void _showSnackBar(BuildContext context, String message, Color color) {
@@ -41,4 +42,40 @@ Future<bool> warningPopUp(
   );
 
   return accepted == true;
+}
+
+Future<NLPProcess> nlpProcessOptionsModalButtomSheet(
+  BuildContext context,
+) async {
+  final process = await showModalBottomSheet<NLPProcess>(
+    context: context,
+    backgroundColor: Theme.of(context).scaffoldBackgroundColor.withOpacity(1.0),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(
+        top: Radius.circular(20.0),
+      ),
+    ),
+    isScrollControlled: true,
+    builder: (context) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ...NLPProcess.values.map((nlpProcess) {
+            return MaterialButton(
+              padding: const EdgeInsets.symmetric(vertical: 30.0),
+              onPressed: () => Navigator.of(context).pop(nlpProcess),
+              child: Text(
+                nlpProcess.name,
+                style: const TextStyle(fontSize: 20.0),
+              ),
+            );
+          })
+        ],
+      );
+    },
+  );
+
+  return process ?? NLPProcess.none;
 }
