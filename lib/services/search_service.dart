@@ -2,11 +2,9 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:med_express/app/app.dart';
+import 'package:med_express/services/models/broker_response_data.dart';
+import 'package:med_express/services/models/nlp_process.dart';
 import 'package:med_express/services/user.dart';
-
-enum SearchErrors { connectionError }
-
-enum NLPProcess { translate, simplify, none }
 
 abstract class SearchService {
   static const Map<String, String> _jsonHeaders = {
@@ -14,7 +12,7 @@ abstract class SearchService {
   };
   static const String _brokerURL = '${App.serverIP}:8080/handle';
 
-  static Future<Map<String, dynamic>> requestSearch(String search) async {
+  static Future<BrokerResponseData> requestSearch(String search) async {
     return _postBrokerWithData({
       'action': 'search',
       'search': {
@@ -36,14 +34,14 @@ abstract class SearchService {
       }
     });
 
-    if (response['error'] == true) {
-      return response['message'];
+    if (response.error) {
+      return response.message;
     }
 
-    return response['data'].toString();
+    return response.data.toString();
   }
 
-  static Future<Map<String, dynamic>> _postBrokerWithData(
+  static Future<BrokerResponseData> _postBrokerWithData(
     Map<String, Object> data,
   ) async {
     late final http.StreamedResponse response;
@@ -58,12 +56,22 @@ abstract class SearchService {
       request.headers.addAll(_jsonHeaders);
 
       response = await request.send();
-    } catch (_) {
-      return {'error': SearchErrors.connectionError};
+
+      final stringData = await response.stream.bytesToString();
+
+      final jsonData = jsonDecode(stringData);
+
+      final brokerData = BrokerResponseData.fromJSON(jsonData);
+
+      return brokerData;
+    } catch (e) {
+      final data = BrokerResponseData(
+        error: true,
+        message:
+            'Failed to receive response from server with error: ${e.toString()}',
+      );
+
+      return data;
     }
-
-    final stringData = await response.stream.bytesToString();
-
-    return jsonDecode(stringData);
   }
 }

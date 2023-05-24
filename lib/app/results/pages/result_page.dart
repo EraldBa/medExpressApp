@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:med_express/app/results/components/interactive_card.dart';
 import 'package:med_express/app/results/components/wiki_results.dart';
 import 'package:med_express/app/results/models/search_result.dart';
+import 'package:med_express/services/models/broker_response_data.dart';
 
 class ResultPage extends StatelessWidget {
   final SearchResults results;
@@ -10,25 +11,25 @@ class ResultPage extends StatelessWidget {
   ResultPage({
     super.key,
     required this.keyword,
-    required Map<String, dynamic> data,
-  }) : results = SearchResults.fromJSON(keyword: keyword, result: data);
+    required BrokerResponseData brokerData,
+  }) : results = SearchResults.fromBrokerResults(keyword, brokerData);
 
   static MaterialPageRoute customRoute(
     BuildContext context,
     String query,
-    Map<String, dynamic> data,
+    BrokerResponseData brokerData,
   ) {
     return MaterialPageRoute(
-      builder: (context) => ResultPage(keyword: query, data: data),
+      builder: (context) => ResultPage(keyword: query, brokerData: brokerData),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: results.error
+      body: results.brokerData.error
           ? Text(
-              'Error occured getting results for ${results.keyword}: ${results.message}',
+              'Error occured getting results for ${results.keyword}: ${results.brokerData.message}',
             )
           : CustomScrollView(
               slivers: [

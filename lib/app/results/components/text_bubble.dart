@@ -35,14 +35,20 @@ class TextBubble extends StatelessWidget {
     buttonItems.add(
       ContextMenuButtonItem(
         label: 'Process text with NLP...',
-        onPressed: () async {
-          final nlpProcess =
-              await show.nlpProcessOptionsModalButtomSheet(context);
+        onPressed: () {
+          final messenger = ScaffoldMessenger.of(context);
 
-          final processedText =
-              await SearchService.processTextWithNLP(text, nlpProcess);
-
-          print(processedText);
+          show.nlpProcessOptionsModalButtomSheet(context).then((nlpProcess) {
+            SearchService.processTextWithNLP(text, nlpProcess)
+                .then((processedText) {
+              messenger.showMaterialBanner(
+                MaterialBanner(
+                  content: Text(processedText),
+                  actions: const [Text('exit')],
+                ),
+              );
+            });
+          });
         },
       ),
     );

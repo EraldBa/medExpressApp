@@ -42,33 +42,21 @@ class SearchBar extends SearchDelegate {
     SearchService.requestSearch(
       query.toLowerCase(),
     ).then(
-      (data) {
-        switch (data['error']) {
-          case SearchErrors.connectionError:
-            show.warningSnackBar(
-              context,
-              message:
-                  'Could not get search results for keyword due to connection problems, try again later.',
-            );
-            showSuggestions(context);
-            break;
-
-          case true:
-            final message = data['message'];
-            show.errorSnackBar(
-              context,
-              message: 'Server error occured fetching results: $message',
-            );
-            showSuggestions(context);
-            break;
-
-          default:
-            Navigator.pushReplacement(
-              context,
-              ResultPage.customRoute(context, query, data),
-            );
-            break;
+      (brokerData) {
+        if (brokerData.error) {
+          show.errorSnackBar(
+            context,
+            message:
+                'Server error occured fetching results: ${brokerData.message}',
+          );
+          showSuggestions(context);
+          return;
         }
+
+        Navigator.pushReplacement(
+          context,
+          ResultPage.customRoute(context, query, brokerData),
+        );
       },
     );
 

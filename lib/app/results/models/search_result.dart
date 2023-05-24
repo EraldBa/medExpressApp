@@ -2,18 +2,17 @@ import 'package:med_express/app/results/models/nhs_data.dart';
 import 'package:med_express/app/results/models/pubmed_data.dart';
 import 'package:med_express/app/results/models/search_data.dart';
 import 'package:med_express/app/results/models/wiki_data.dart';
+import 'package:med_express/services/models/broker_response_data.dart';
 
 class SearchResults {
   final String _keyword;
-  final bool _error;
-  final String _message;
+  final BrokerResponseData _brokerData;
   WikiData? _wikiData;
   List<PubMedData>? _pubmedData;
   List<NhsData>? _nhsData;
 
-  bool get error => _error;
   String get keyword => _keyword;
-  String get message => _message;
+  BrokerResponseData get brokerData => _brokerData;
   WikiData? get wikiData => _wikiData;
   List<PubMedData>? get pubmedData => _pubmedData;
   List<NhsData>? get nhsData => _nhsData;
@@ -23,23 +22,42 @@ class SearchResults {
     required Map<String, dynamic> result,
   }) {
     try {
-      return SearchResults._from(keyword, result);
+      return SearchResults._fromJSON(keyword, result);
     } catch (_) {
       return SearchResults._err(keyword);
     }
   }
 
-  SearchResults._from(String keyword, Map<String, dynamic> result)
+  factory SearchResults.fromBrokerResults(
+      String keyword, BrokerResponseData brokerData) {
+    try {
+      return SearchResults._fromBrokerResults(keyword, brokerData);
+    } catch (_) {
+      return SearchResults._err(keyword);
+    }
+  }
+
+  SearchResults._fromBrokerResults(
+    String keyword,
+    this._brokerData,
+  ) : _keyword = keyword {
+    _initFromBrokerData();
+  }
+
+  SearchResults._fromJSON(String keyword, Map<String, dynamic> result)
       : _keyword = keyword,
-        _error = result['error'] as bool,
-        _message = result['message'].toString() {
-    if (_error) {
+        _brokerData = BrokerResponseData.fromJSON(result) {
+    _initFromBrokerData();
+  }
+
+  void _initFromBrokerData() {
+    if (brokerData.error) {
       return;
     }
 
-    final data = List<Map<String, dynamic>>.from(result['data']);
+    final body = List<Map<String, dynamic>>.from(brokerData.data);
 
-    for (final element in data) {
+    for (final element in body) {
       final udata = List<Map<String, dynamic>>.from(element['data']);
 
       switch (element['origin'].toString()) {
@@ -58,9 +76,10 @@ class SearchResults {
 
   SearchResults._err(String keyword)
       : _keyword = keyword,
-        _error = true,
-        _message = 'data sent from server improperly formated';
-
+        _brokerData = BrokerResponseData(
+          error: true,
+          message: 'Data improperly formatted froom server',
+        );
   Map<String, List<SearchData>> get dataForCards {
     final data = <String, List<SearchData>>{};
 

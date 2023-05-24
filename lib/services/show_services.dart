@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:med_express/appearance/const_colors.dart' as const_colors;
-import 'package:med_express/services/search_service.dart';
+import 'package:med_express/services/models/nlp_process.dart';
 import 'package:med_express/widgets/my_alert_dialog.dart';
 
 void _showSnackBar(BuildContext context, String message, Color color) {
