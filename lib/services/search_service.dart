@@ -22,6 +22,19 @@ abstract class SearchService {
     });
   }
 
+  static Future<String> requestPDF({required String pmcid}) async {
+    final response = await _postBrokerWithData({
+      'action': 'get-pdf',
+      'search': {'keyword': pmcid}
+    });
+
+    if (response.error) {
+      return response.message;
+    }
+
+    return response.data.toString();
+  }
+
   static Future<String> processTextWithNLP(
     String text,
     NLPProcess process,
@@ -44,8 +57,6 @@ abstract class SearchService {
   static Future<BrokerResponseData> _postBrokerWithData(
     Map<String, Object> data,
   ) async {
-    late final http.StreamedResponse response;
-
     try {
       final request = http.Request(
         'POST',
@@ -55,7 +66,7 @@ abstract class SearchService {
       request.body = json.encode(data);
       request.headers.addAll(_jsonHeaders);
 
-      response = await request.send();
+      final response = await request.send();
 
       final stringData = await response.stream.bytesToString();
 

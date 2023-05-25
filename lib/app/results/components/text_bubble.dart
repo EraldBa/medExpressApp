@@ -1,10 +1,12 @@
 // ignore_for_file: unnecessary_this
 
 import 'package:flutter/material.dart';
+import 'package:med_express/app/results/pages/simple_data_page.dart';
 import 'package:med_express/services/search_service.dart';
 import 'package:med_express/services/show_services.dart' as show;
 
 class TextBubble extends StatelessWidget {
+  static const _maxWordsForSnackBar = 600;
   final String text, title;
   final Color color;
   final VoidCallback? onTap;
@@ -35,20 +37,37 @@ class TextBubble extends StatelessWidget {
     buttonItems.add(
       ContextMenuButtonItem(
         label: 'Process text with NLP...',
-        onPressed: () {
+        onPressed: () async {
           final messenger = ScaffoldMessenger.of(context);
+          final navigator = Navigator.of(context);
 
-          show.nlpProcessOptionsModalButtomSheet(context).then((nlpProcess) {
-            SearchService.processTextWithNLP(text, nlpProcess)
-                .then((processedText) {
-              messenger.showMaterialBanner(
-                MaterialBanner(
-                  content: Text(processedText),
-                  actions: const [Text('exit')],
-                ),
-              );
-            });
-          });
+          final nlpProcess =
+              await show.nlpProcessOptionsModalButtomSheet(context);
+
+          final processedText =
+              await SearchService.processTextWithNLP(text, nlpProcess);
+
+          if (processedText.length > _maxWordsForSnackBar) {
+            navigator.push(SimpleDataPage.customRoute(title, processedText));
+            return;
+          }
+
+          messenger.showMaterialBanner(
+            MaterialBanner(
+              backgroundColor: Colors.pink,
+              content: Text(processedText),
+              actions: [
+                MaterialButton(
+                  onPressed: () => messenger.removeCurrentMaterialBanner(),
+                  child: const Text('Exit'),
+                )
+              ],
+              onVisible: () async {
+                await Future.delayed(const Duration(seconds: 3));
+                messenger.removeCurrentMaterialBanner();
+              },
+            ),
+          );
         },
       ),
     );
