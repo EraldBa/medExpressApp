@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:med_express/app/results/components/text_bubble.dart';
 import 'package:med_express/app/results/models/search_data.dart';
+import 'package:med_express/app/results/pages/simple_data_page.dart';
 import 'package:med_express/extensions/string_extension.dart';
 import 'package:med_express/mixins/adaptive_mixin.dart';
+import 'package:med_express/services/search_service.dart';
+import 'package:med_express/services/show_services.dart' as show;
 
-class DataPage extends StatelessWidget with AdaptiveScreenMixin {
+class DataPage extends StatefulWidget {
+  final SearchData data;
+
+  const DataPage({super.key, required this.data});
+
+  @override
+  State<DataPage> createState() => _DataPageState();
+}
+
+class _DataPageState extends State<DataPage> with AdaptiveScreenMixin {
   static const List<Color> _randomColors = [
     Colors.blue,
     Colors.red,
@@ -18,16 +30,32 @@ class DataPage extends StatelessWidget with AdaptiveScreenMixin {
 
   static const String _paragraphTerminator = '|';
 
-  final SearchData data;
+  String? _pmcid;
 
-  const DataPage({super.key, required this.data});
+  Widget? get pdfFloatingActionButton {
+    return _pmcid != null
+        ? FloatingActionButton.extended(
+            onPressed: () {
+              show.loadingScreen(context);
+              SearchService.requestPDF(pmcid: _pmcid!).then((pdfText) {
+                Navigator.of(context).pop();
+                Navigator.of(context).push(
+                  SimpleDataPage.customRoute('PDF', pdfText),
+                );
+              });
+            },
+            label: const Text('Get PDF'),
+            icon: const Icon(Icons.picture_as_pdf_rounded),
+          )
+        : null;
+  }
 
   @override
   Widget build(BuildContext context) {
     final columnBody = <Widget>[];
 
     int i = 0;
-    data.toMap.forEach((name, value) {
+    widget.data.toMap.forEach((name, value) {
       final color = _randomColors[i++];
 
       late final Widget textBubble;
@@ -39,6 +67,10 @@ class DataPage extends StatelessWidget with AdaptiveScreenMixin {
           color: color,
         );
       } else if (value is String) {
+        if (name == 'pmcid') {
+          _pmcid = value.isNotEmpty ? value : null;
+        }
+
         value = value
             .formatWith('\n', step: isSmallScreen(context) ? 50 : 80)
             .replaceAll(_paragraphTerminator, '\n\n');
@@ -57,7 +89,7 @@ class DataPage extends StatelessWidget with AdaptiveScreenMixin {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(data.title),
+        title: Text(widget.data.title),
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -68,6 +100,7 @@ class DataPage extends StatelessWidget with AdaptiveScreenMixin {
           ),
         ),
       ),
+      floatingActionButton: pdfFloatingActionButton,
     );
   }
 }

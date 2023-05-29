@@ -32,7 +32,7 @@ abstract class SearchService {
       return response.message;
     }
 
-    return response.data.toString();
+    return response.data['pdf_text'].toString();
   }
 
   static Future<String> processTextWithNLP(

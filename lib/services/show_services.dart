@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:med_express/app/home/widgets/loading_screen.dart';
 import 'package:med_express/appearance/const_colors.dart' as const_colors;
 import 'package:med_express/services/models/nlp_process.dart';
 import 'package:med_express/widgets/my_alert_dialog.dart';
@@ -10,6 +11,13 @@ void _showSnackBar(BuildContext context, String message, Color color) {
       content: Text(message),
       duration: const Duration(milliseconds: 1500),
     ),
+  );
+}
+
+void loadingScreen(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (_) => const LoadingScreen(),
   );
 }
 
