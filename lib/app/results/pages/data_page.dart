@@ -30,11 +30,37 @@ class _DataPageState extends State<DataPage> with AdaptiveScreenMixin {
 
   static const String _paragraphTerminator = '|';
 
+  final ScrollController _scrollController = ScrollController();
+
   String? _pmcid;
+  bool _isScrolled = false;
+
+  @override
+  void initState() {
+    _scrollController.addListener(() {
+      if (_scrollController.offset > 50.0) {
+        setState(() {
+          _isScrolled = true;
+        });
+      } else {
+        setState(() {
+          _isScrolled = false;
+        });
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   Widget? get pdfFloatingActionButton {
     return _pmcid != null
         ? FloatingActionButton.extended(
+            isExtended: _isScrolled,
             onPressed: () {
               show.loadingScreen(context);
               SearchService.requestPDF(pmcid: _pmcid!).then((pdfText) {
@@ -92,6 +118,7 @@ class _DataPageState extends State<DataPage> with AdaptiveScreenMixin {
         title: Text(widget.data.title),
       ),
       body: SingleChildScrollView(
+        controller: _scrollController,
         child: Container(
           alignment: Alignment.center,
           child: Column(
