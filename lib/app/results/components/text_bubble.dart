@@ -62,10 +62,6 @@ class TextBubble extends StatelessWidget {
                   child: const Text('Exit'),
                 )
               ],
-              onVisible: () async {
-                await Future.delayed(const Duration(seconds: 3));
-                messenger.removeCurrentMaterialBanner();
-              },
             ),
           );
         },

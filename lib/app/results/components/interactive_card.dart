@@ -19,9 +19,15 @@ class InteractiveCard extends StatelessWidget with AdaptiveScreenMixin {
     BuildContext context,
     SearchResults results,
   ) {
-    const randomImages = [
-      'assets/images/doctor.png',
-      'assets/images/drugstore.png'
+    const imageDir = 'assets/images/';
+
+    const cardAssetImages = [
+      '${imageDir}doctor.png',
+      '${imageDir}drugstore.png',
+      '${imageDir}doctor-with-mask.png',
+      '${imageDir}heart-rate.png',
+      '${imageDir}icons-med.png',
+      '${imageDir}doctor-computer.png',
     ];
 
     final cards = <InteractiveCard>[];
@@ -29,7 +35,8 @@ class InteractiveCard extends StatelessWidget with AdaptiveScreenMixin {
     int i = 0;
 
     results.dataForCards.forEach((title, data) {
-      final image = randomImages[i++];
+      final image = cardAssetImages[i++];
+
       cards.add(
         InteractiveCard(
           title: title.toUpperCase(),
