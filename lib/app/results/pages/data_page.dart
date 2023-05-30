@@ -33,19 +33,15 @@ class _DataPageState extends State<DataPage> with AdaptiveScreenMixin {
   final ScrollController _scrollController = ScrollController();
 
   String? _pmcid;
-  bool _isScrolled = false;
+  bool _isExtended = true;
 
   @override
   void initState() {
     _scrollController.addListener(() {
-      if (_scrollController.offset > 50.0) {
-        setState(() {
-          _isScrolled = true;
-        });
+      if (_scrollController.offset < 50.0) {
+        isExtended = true;
       } else {
-        setState(() {
-          _isScrolled = false;
-        });
+        isExtended = false;
       }
     });
     super.initState();
@@ -57,10 +53,16 @@ class _DataPageState extends State<DataPage> with AdaptiveScreenMixin {
     super.dispose();
   }
 
+  set isExtended(bool value) {
+    setState(() {
+      _isExtended = value;
+    });
+  }
+
   Widget? get pdfFloatingActionButton {
     return _pmcid != null
         ? FloatingActionButton.extended(
-            isExtended: _isScrolled,
+            isExtended: _isExtended,
             onPressed: () {
               show.loadingScreen(context);
               SearchService.requestPDF(pmcid: _pmcid!).then((pdfText) {
@@ -93,8 +95,8 @@ class _DataPageState extends State<DataPage> with AdaptiveScreenMixin {
           color: color,
         );
       } else if (value is String) {
-        if (name == 'pmcid') {
-          _pmcid = value.isNotEmpty ? value : null;
+        if (name == 'pmcid' && value.isNotEmpty) {
+          _pmcid = value;
         }
 
         value = value

@@ -6,7 +6,6 @@ import 'package:med_express/services/search_service.dart';
 import 'package:med_express/services/show_services.dart' as show;
 
 class TextBubble extends StatelessWidget {
-  static const _maxWordsForSnackBar = 600;
   final String text, title;
   final Color color;
   final VoidCallback? onTap;
@@ -31,7 +30,10 @@ class TextBubble extends StatelessWidget {
     BuildContext context,
     EditableTextState editableTextState,
   ) {
-    final text = editableTextState.textEditingValue.text;
+    const maxWordsForSnackBar = 600;
+
+    final text = editableTextState.currentTextEditingValue.selection
+        .textInside(editableTextState.textEditingValue.text);
     final buttonItems = editableTextState.contextMenuButtonItems;
 
     buttonItems.add(
@@ -41,29 +43,34 @@ class TextBubble extends StatelessWidget {
           final messenger = ScaffoldMessenger.of(context);
           final navigator = Navigator.of(context);
 
+          show.loadingScreen(context);
+
           final nlpProcess =
               await show.nlpProcessOptionsModalButtomSheet(context);
 
           final processedText =
               await SearchService.processTextWithNLP(text, nlpProcess);
 
-          if (processedText.length > _maxWordsForSnackBar) {
-            navigator.push(SimpleDataPage.customRoute(title, processedText));
-            return;
-          }
+          navigator.pop();
 
-          messenger.showMaterialBanner(
-            MaterialBanner(
-              backgroundColor: Colors.pink,
-              content: Text(processedText),
-              actions: [
-                MaterialButton(
-                  onPressed: () => messenger.removeCurrentMaterialBanner(),
-                  child: const Text('Exit'),
-                )
-              ],
-            ),
-          );
+          if (processedText.length > maxWordsForSnackBar) {
+            navigator.push(SimpleDataPage.customRoute(title, processedText));
+          } else {
+            messenger.showMaterialBanner(
+              MaterialBanner(
+                backgroundColor: Colors.pink,
+                content: Text(processedText),
+                actions: [
+                  MaterialButton(
+                    onPressed: () {
+                      messenger.removeCurrentMaterialBanner();
+                    },
+                    child: const Text('Exit'),
+                  )
+                ],
+              ),
+            );
+          }
         },
       ),
     );

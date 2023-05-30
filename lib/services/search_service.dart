@@ -39,6 +39,11 @@ abstract class SearchService {
     String text,
     NLPProcess process,
   ) async {
+    const maxSimplifyTextLen = 25000;
+    if (process == NLPProcess.simplify && text.length > maxSimplifyTextLen) {
+      return 'Text selected too big for simplification.';
+    }
+
     final response = await _postBrokerWithData({
       'action': 'process-text',
       'nlp': {
