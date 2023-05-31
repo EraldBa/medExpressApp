@@ -17,18 +17,20 @@ class _AccountPageState extends State<AccountPage> with AdaptiveScreenMixin {
 
   String? _username;
   String? _email;
-  String? _pasword;
+  String? _password;
 
   void _clearFields() {
     _formKey.currentState!.reset();
 
     setState(() {
-      _username = _email = _pasword = null;
+      _username = _email = _password = null;
     });
   }
 
   void _saveChange() {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
 
     show
         .warningPopUp(
@@ -40,7 +42,7 @@ class _AccountPageState extends State<AccountPage> with AdaptiveScreenMixin {
         User.current.updateUser(
           username: _username,
           email: _email,
-          password: _pasword,
+          password: _password,
         );
         show.successSnackBar(context, message: 'Changes saved!');
       } else {
@@ -95,7 +97,7 @@ class _AccountPageState extends State<AccountPage> with AdaptiveScreenMixin {
                     labelText: 'Password',
                     hintText: '••••••••••',
                     obscureText: true,
-                    onChanged: (text) => _pasword = text,
+                    onChanged: (text) => _password = text,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(top: 260.0),
