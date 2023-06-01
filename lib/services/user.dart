@@ -124,7 +124,9 @@ class User {
     }
 
     if (keyword != null) {
-      _searchHistory.insert(0, keyword);
+      if (keyword.isNotEmpty) {
+        _searchHistory.insert(0, keyword);
+      }
 
       if (_searchHistory.length > 10) {
         _searchHistory.removeLast();

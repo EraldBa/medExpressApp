@@ -26,7 +26,7 @@ class SimpleDataPage extends StatelessWidget {
           child: TextBubble(
             text,
             title: title,
-            color: Colors.blue,
+            color: Colors.blueGrey,
           ),
         ),
       ),

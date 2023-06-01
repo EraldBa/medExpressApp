@@ -12,6 +12,10 @@ abstract class SearchService {
   };
   static const String _brokerURL = '${App.serverIP}:8080/handle';
 
+  static const List<String> _validSites = ['wiki', 'pubmed', 'nhs'];
+
+  static List<String> get validSites => _validSites;
+
   static Future<BrokerResponseData> requestSearch(String search) async {
     return _postBrokerWithData({
       'action': 'search',

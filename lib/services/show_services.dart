@@ -33,7 +33,7 @@ void warningSnackBar(BuildContext context, {required String message}) {
   _showSnackBar(context, message, const_colors.warningColor);
 }
 
-Future<bool> warningPopUp(
+Future<bool> confirmationDialog(
   BuildContext context, {
   required String message,
 }) async {

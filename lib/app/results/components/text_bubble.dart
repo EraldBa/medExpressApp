@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:med_express/app/results/pages/simple_data_page.dart';
+import 'package:med_express/services/models/nlp_process.dart';
 import 'package:med_express/services/search_service.dart';
 import 'package:med_express/services/show_services.dart' as show;
 
@@ -47,6 +48,11 @@ class TextBubble extends StatelessWidget {
 
           final nlpProcess =
               await show.nlpProcessOptionsModalButtomSheet(context);
+
+          if (nlpProcess == NLPProcess.none) {
+            navigator.pop();
+            return;
+          }
 
           final processedText =
               await SearchService.processTextWithNLP(text, nlpProcess);
