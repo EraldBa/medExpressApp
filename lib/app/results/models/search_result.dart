@@ -41,16 +41,16 @@ class SearchResults {
     String keyword,
     this._brokerData,
   ) : _keyword = keyword {
-    _initFromBrokerData();
+    _init();
   }
 
   SearchResults._fromJSON(String keyword, Map<String, dynamic> result)
       : _keyword = keyword,
         _brokerData = BrokerResponseData.fromJSON(result) {
-    _initFromBrokerData();
+    _init();
   }
 
-  void _initFromBrokerData() {
+  void _init() {
     if (brokerData.error) {
       return;
     }
@@ -80,6 +80,7 @@ class SearchResults {
           error: true,
           message: 'Data improperly formatted froom server',
         );
+
   Map<String, List<SearchData>> get dataForCards {
     final data = <String, List<SearchData>>{};
 
