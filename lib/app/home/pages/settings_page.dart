@@ -11,45 +11,35 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  bool _isExpansionPanelOpen = false;
-  late final List<bool> _isChecked =
-      List<bool>.filled(SearchService.validSites.length, false);
-
   @override
   Widget build(BuildContext context) {
-    int index = -1;
-
     return ListView(
       children: [
-        ExpansionPanelList(
-          animationDuration: const Duration(milliseconds: 300),
-          elevation: 8.0,
-          children: [
-            ExpansionPanel(
-              isExpanded: _isExpansionPanelOpen,
-              headerBuilder: (_, __) => const Text('Site Preferences'),
-              canTapOnHeader: true,
-              body: ListView(
-                children: SearchService.validSites.map((site) {
-                  ++index;
-                  return CheckboxListTile(
-                    title: Text(site),
-                    value: _isChecked[index],
-                    onChanged: (value) {
-                      setState(() {
-                        _isChecked[index] = value!;
-                      });
-                    },
-                  );
-                }).toList(),
-              ),
-            ),
-          ],
-          expansionCallback: (i, isOpen) {
-            setState(() {
-              _isExpansionPanelOpen = !_isExpansionPanelOpen;
-            });
-          },
+        ListTile(
+          leading: const Icon(Icons.computer),
+          title: const Text('Site Preferences'),
+          trailing: PopupMenuButton(
+            color: Theme.of(context).primaryColor,
+            onSelected: (site) {
+              if (User.current.sitePreferences.contains(site)) {
+                User.current.sitePreferences.remove(site);
+              } else {
+                User.current.sitePreferences.add(site);
+              }
+
+              User.current
+                  .updateUser(sitePreferences: User.current.sitePreferences);
+            },
+            itemBuilder: (context) {
+              return SearchService.validSites.map((site) {
+                return CheckedPopupMenuItem(
+                  value: site,
+                  checked: User.current.sitePreferences.contains(site),
+                  child: Text(site),
+                );
+              }).toList();
+            },
+          ),
         ),
         ListTile(
           leading: const Icon(Icons.history),

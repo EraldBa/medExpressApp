@@ -35,7 +35,7 @@ class _SearchResultsPageState extends State<SearchResultsPage> {
 
   @override
   Widget build(BuildContext context) {
-    int index = -1;
+    int index = 0;
 
     return Scaffold(
       appBar: AppBar(
