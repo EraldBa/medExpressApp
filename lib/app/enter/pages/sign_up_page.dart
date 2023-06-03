@@ -3,7 +3,6 @@ import 'package:med_express/app/app.dart';
 import 'package:med_express/app/enter/pages/welcome_page.dart';
 import 'package:med_express/app/enter/widgets/enter_form.dart';
 import 'package:med_express/app/enter/widgets/enter_form_field.dart';
-import 'package:med_express/app/home/widgets/loading_screen.dart';
 import 'package:med_express/appearance/const_colors.dart' as const_colors;
 import 'package:med_express/services/show_services.dart' as show;
 import 'package:med_express/services/user.dart';
@@ -23,7 +22,7 @@ class _SignUpState extends State<SignUpPage> {
   String _password = '';
 
   void _formSignUpThenLogIn(BuildContext context) {
-    showDialog(context: context, builder: (context) => const LoadingScreen());
+    show.loadingScreen(context);
 
     if (!_formKey.currentState!.validate()) {
       Navigator.of(context).pop();

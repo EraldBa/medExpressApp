@@ -12,6 +12,10 @@ abstract class SearchService {
   };
   static const String _brokerURL = '${App.serverIP}:8080/handle';
 
+  static const List<String> _validSites = ['wiki', 'pubmed', 'nhs'];
+
+  static List<String> get validSites => _validSites;
+
   static Future<BrokerResponseData> requestSearch(String search) async {
     return _postBrokerWithData({
       'action': 'search',
@@ -22,10 +26,28 @@ abstract class SearchService {
     });
   }
 
+  static Future<String> requestPDF({required String pmcid}) async {
+    final response = await _postBrokerWithData({
+      'action': 'get-pdf',
+      'search': {'keyword': pmcid}
+    });
+
+    if (response.error) {
+      return response.message;
+    }
+
+    return response.data['pdf_text'].toString();
+  }
+
   static Future<String> processTextWithNLP(
     String text,
     NLPProcess process,
   ) async {
+    const maxSimplifyTextLen = 25000;
+    if (process == NLPProcess.simplify && text.length > maxSimplifyTextLen) {
+      return 'Text selected too big for simplification.';
+    }
+
     final response = await _postBrokerWithData({
       'action': 'process-text',
       'nlp': {
@@ -44,8 +66,6 @@ abstract class SearchService {
   static Future<BrokerResponseData> _postBrokerWithData(
     Map<String, Object> data,
   ) async {
-    late final http.StreamedResponse response;
-
     try {
       final request = http.Request(
         'POST',
@@ -55,7 +75,7 @@ abstract class SearchService {
       request.body = json.encode(data);
       request.headers.addAll(_jsonHeaders);
 
-      response = await request.send();
+      final response = await request.send();
 
       final stringData = await response.stream.bytesToString();
 

@@ -1,6 +1,8 @@
 // ignore_for_file: unnecessary_this
 
 import 'package:flutter/material.dart';
+import 'package:med_express/app/results/pages/simple_data_page.dart';
+import 'package:med_express/services/models/nlp_process.dart';
 import 'package:med_express/services/search_service.dart';
 import 'package:med_express/services/show_services.dart' as show;
 
@@ -29,26 +31,52 @@ class TextBubble extends StatelessWidget {
     BuildContext context,
     EditableTextState editableTextState,
   ) {
-    final text = editableTextState.textEditingValue.text;
+    const maxWordsForSnackBar = 600;
+
+    final text = editableTextState.currentTextEditingValue.selection
+        .textInside(editableTextState.textEditingValue.text);
     final buttonItems = editableTextState.contextMenuButtonItems;
 
     buttonItems.add(
       ContextMenuButtonItem(
         label: 'Process text with NLP...',
-        onPressed: () {
+        onPressed: () async {
           final messenger = ScaffoldMessenger.of(context);
+          final navigator = Navigator.of(context);
 
-          show.nlpProcessOptionsModalButtomSheet(context).then((nlpProcess) {
-            SearchService.processTextWithNLP(text, nlpProcess)
-                .then((processedText) {
-              messenger.showMaterialBanner(
-                MaterialBanner(
-                  content: Text(processedText),
-                  actions: const [Text('exit')],
-                ),
-              );
-            });
-          });
+          show.loadingScreen(context);
+
+          final nlpProcess =
+              await show.nlpProcessOptionsModalButtomSheet(context);
+
+          if (nlpProcess == NLPProcess.none) {
+            navigator.pop();
+            return;
+          }
+
+          final processedText =
+              await SearchService.processTextWithNLP(text, nlpProcess);
+
+          navigator.pop();
+
+          if (processedText.length > maxWordsForSnackBar) {
+            navigator.push(SimpleDataPage.customRoute(title, processedText));
+          } else {
+            messenger.showMaterialBanner(
+              MaterialBanner(
+                backgroundColor: Colors.pink,
+                content: Text(processedText),
+                actions: [
+                  MaterialButton(
+                    onPressed: () {
+                      messenger.removeCurrentMaterialBanner();
+                    },
+                    child: const Text('Exit'),
+                  )
+                ],
+              ),
+            );
+          }
         },
       ),
     );

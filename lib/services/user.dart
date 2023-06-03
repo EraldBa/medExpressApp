@@ -5,7 +5,9 @@ import 'package:pocketbase/pocketbase.dart';
 
 class User {
   static final User _user = User._internal();
+
   final PocketBase _pb = PocketBase('${App.serverIP}:8090');
+
   List<String> _sitePreferences = [];
   List<String> _searchHistory = [];
   String _id = '';
@@ -122,7 +124,9 @@ class User {
     }
 
     if (keyword != null) {
-      _searchHistory.insert(0, keyword);
+      if (keyword.isNotEmpty) {
+        _searchHistory.insert(0, keyword);
+      }
 
       if (_searchHistory.length > 10) {
         _searchHistory.removeLast();
@@ -151,5 +155,10 @@ class User {
   Future<void> deleteUser(BuildContext context) async {
     _pb.collection('users').delete(id);
     logOut(context);
+  }
+
+  Future<void> clearHistory() async {
+    _searchHistory = [];
+    await updateUser(keyword: '');
   }
 }
