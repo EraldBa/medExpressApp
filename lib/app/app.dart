@@ -7,7 +7,7 @@ import 'package:med_express/appearance/themes.dart' as themes;
 
 class App extends StatelessWidget {
   static const name = '⚞MedExpress';
-  static const serverIP = 'http://127.0.0.1'; //'http://192.168.31.22';
+  static const serverIP = 'http://127.0.0.1';
 
   const App({super.key});
 

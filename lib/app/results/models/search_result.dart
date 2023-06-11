@@ -78,7 +78,7 @@ class SearchResults {
       : _keyword = keyword,
         _brokerData = BrokerResponseData(
           error: true,
-          message: 'Data improperly formatted froom server',
+          message: 'Data improperly formatted from server',
         );
 
   Map<String, List<SearchData>> get dataForCards {
